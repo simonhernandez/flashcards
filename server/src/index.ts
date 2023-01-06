@@ -1,3 +1,6 @@
+import { config } from "dotenv";
+config();
+
 import express, { Response, Request } from "express";
 import mongoose from "mongoose";
 
@@ -29,7 +32,7 @@ app.get("/tgif", (req: Request, res: Response) => {
 
 mongoose
   .connect(
-    "mongodb+srv://flashcarduser:jMXFpsILge4Uj3Ly@cluster0.8cbtoaj.mongodb.net/?retryWrites=true&w=majority"
+    process.env.MONGO_URL!
   )
   .then(() => {
     console.log(`listening on port ${PORT}`);
