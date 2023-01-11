@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 
 function App() {
+  const [decks, setDecks] = useState([]);
   const [title, setTitle] = useState("");
 
   const handleCreateDeck = async (e: React.FormEvent) => {
@@ -19,6 +20,18 @@ function App() {
     });
     setTitle('');
   }
+
+  useEffect(() => {
+
+    async function fetchDecks() {
+      const response = await fetch('http://localhost:5000/decks'); // fetch returns an object that has a .json method that returns the array of objects
+      const newDecks = await response.json();
+      setDecks(newDecks);
+    }
+
+    fetchDecks();
+
+  }, []);
 
   return (
     <div className="App">
