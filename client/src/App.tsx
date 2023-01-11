@@ -3,9 +3,9 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 
 type TDeck = {
-  title: string,
-  _id: string
-}
+  title: string;
+  _id: string;
+};
 
 function App() {
   const [decks, setDecks] = useState<TDeck[]>([]);
@@ -14,8 +14,8 @@ function App() {
   const handleCreateDeck = async (e: React.FormEvent) => {
     e.preventDefault(); // this stops the browser from refreshing and losing data on form submit
 
-    await fetch('http://localhost:5000/decks', {
-      method: 'POST',
+    const response = await fetch("http://localhost:5000/decks", {
+      method: "POST",
       body: JSON.stringify({
         title,
       }),
@@ -23,28 +23,39 @@ function App() {
         "Content-Type": "application/json",
       },
     });
-    setTitle('');
-  }
+    const deck = response.json();
+    setDecks([...decks, deck])
+    setTitle("");
+  };
+
+  const handleDeleteDeck = async (deckId: string) => {
+    await fetch(`http://localhost:5000/decks/${deckId}`, {
+      method: "DELETE",
+    });
+
+    setDecks(decks.filter((deck) => deck._id !== deckId))
+  };
 
   useEffect(() => {
-
     async function fetchDecks() {
-      const response = await fetch('http://localhost:5000/decks'); // fetch returns an object that has a .json method that returns the array of objects
+      const response = await fetch("http://localhost:5000/decks"); // fetch returns an object that has a .json method that returns the array of objects
       const newDecks = await response.json();
       setDecks(newDecks);
     }
 
     fetchDecks();
-
   }, []);
 
   return (
     <div className="App">
       <ul className="decks">
         {decks.map((deck) => {
-          return <li key={deck._id}>
-            {deck.title}
-          </li>
+          return (
+            <li key={deck._id}>
+              {deck.title}
+              <button onClick={() => handleDeleteDeck(deck._id)}>X</button>
+            </li>
+          );
         })}
       </ul>
 
