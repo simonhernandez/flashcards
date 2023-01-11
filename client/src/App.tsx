@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 
+type TDeck = {
+  title: string,
+  _id: string
+}
+
 function App() {
-  const [decks, setDecks] = useState([]);
+  const [decks, setDecks] = useState<TDeck[]>([]);
   const [title, setTitle] = useState("");
 
   const handleCreateDeck = async (e: React.FormEvent) => {
