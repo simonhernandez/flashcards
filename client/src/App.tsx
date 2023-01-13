@@ -23,7 +23,7 @@ function App() {
         "Content-Type": "application/json",
       },
     });
-    const deck = response.json();
+    const deck = await response.json();
     setDecks([...decks, deck])
     setTitle("");
   };
