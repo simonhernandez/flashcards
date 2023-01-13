@@ -29,8 +29,19 @@
   border-radius: 10px;
   color: black;
   cursor: pointer;
+  position: relative;
 }
 
 .decks li:hover {
   background-color: #eee;
+}
+
+.decks li button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
 }
